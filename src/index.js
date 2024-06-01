@@ -15,8 +15,8 @@ root.render(
     <Provider store={store}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/product" element={<Products />} />
-        <Route path="/product/:id" element={<Product />} />
+        <Route path="/get_products" element={<Products />} />
+        <Route path="/get_products/:id" element={<Product />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/cart" element={<Cart />} />
@@ -24,7 +24,7 @@ root.render(
         <Route path="/register" element={<Register />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<PageNotFound />} />
-        <Route path="/product/*" element={<PageNotFound />} />
+        <Route path="/get_products/*" element={<PageNotFound />} />
       </Routes>
     </Provider>
   </BrowserRouter>

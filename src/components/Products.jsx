@@ -22,7 +22,9 @@ const Products = () => {
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      const response = await fetch("https://fakestoreapi.com/products/");
+      //const response = await fetch("https://fakestoreapi.com/products/");
+      
+      const response = await fetch("https://8ds3d4qd91.execute-api.us-east-1.amazonaws.com/test/get_products");
       if (componentMounted) {
         setData(await response.clone().json());
         setFilter(await response.json());
@@ -106,7 +108,7 @@ const Products = () => {
                     <li className="list-group-item">Vestibulum at eros</li> */}
                 </ul>
                 <div className="card-body">
-                  <Link to={"/product/" + product.id} className="btn btn-dark m-1">
+                  <Link to={"/get_products/" + product.id} className="btn btn-dark m-1">
                     Buy Now
                   </Link>
                   <button className="btn btn-dark m-1" onClick={() => addProduct(product)}>

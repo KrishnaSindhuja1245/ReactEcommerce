@@ -24,12 +24,15 @@ const Product = () => {
     const getProduct = async () => {
       setLoading(true);
       setLoading2(true);
-      const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+      //const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+      const response = await fetch(`https://8ds3d4qd91.execute-api.us-east-1.amazonaws.com/test/get_products/${id}`);
       const data = await response.json();
       setProduct(data);
       setLoading(false);
+      //const category = encodeURI(data.category);
       const response2 = await fetch(
-        `https://fakestoreapi.com/products/category/${data.category}`
+        //`https://fakestoreapi.com/products/category/${data.category}`
+        `https://8ds3d4qd91.execute-api.us-east-1.amazonaws.com/test/get_products/category/${data.category}`
       );
       const data2 = await response2.json();
       setSimilarProducts(data2);
@@ -148,7 +151,7 @@ const Product = () => {
                   </ul> */}
                   <div className="card-body">
                     <Link
-                      to={"/product/" + item.id}
+                      to={"/get_products/" + item.id}
                       className="btn btn-dark m-1"
                     >
                       Buy Now
