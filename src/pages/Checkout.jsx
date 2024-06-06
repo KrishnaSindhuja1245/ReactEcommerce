@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 const Checkout = () => {
   const state = useSelector((state) => state.handleCart);
+  const auth = useSelector(state => state.authSlice);
 
   const EmptyCart = () => {
     return (
@@ -19,7 +20,20 @@ const Checkout = () => {
       </div>
     );
   };
-
+  const RequestLogin = () => {
+    return(
+      <div className="container my-3 py-3">
+        <div className="row">
+          <div className="col-md-12 py-5 bg-light text-center">
+            <h4 className="p-3 display-5">Please login to view Cart.</h4>
+            <Link to="/login" className="btn  btn-outline-dark mx-4">
+              <i className="fa fa-arrow-left"></i> Login
+            </Link>
+          </div>
+        </div>
+        </div>
+    );
+  }
   const ShowCheckout = () => {
     let subtotal = 0;
     let shipping = 30.0;
@@ -285,11 +299,15 @@ const Checkout = () => {
   return (
     <>
       <Navbar />
-      <div className="container my-3 py-3">
-        <h1 className="text-center">Checkout</h1>
-        <hr />
-        {state.length ? <ShowCheckout /> : <EmptyCart />}
-      </div>
+      {auth.userData.name !=''?
+      <><div className="container my-3 py-3">
+      <h1 className="text-center">Checkout</h1>
+      <hr />
+      {state.length ? <ShowCheckout /> : <EmptyCart />}
+      </div></>  
+        : <RequestLogin />
+      }
+      
       <Footer />
     </>
   );

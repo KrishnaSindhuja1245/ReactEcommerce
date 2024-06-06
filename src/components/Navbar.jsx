@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 
 const Navbar = () => {
     const state = useSelector(state => state.handleCart)
+    const auth = useSelector(state => state.authSlice)
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
             <div className="container">
@@ -28,8 +29,11 @@ const Navbar = () => {
                         </li>
                     </ul>
                     <div className="buttons text-center">
-                        <NavLink to="/login" className="btn btn-outline-dark m-2"><i className="fa fa-sign-in-alt mr-1"></i> Login</NavLink>
-                        <NavLink to="/register" className="btn btn-outline-dark m-2"><i className="fa fa-user-plus mr-1"></i> Register</NavLink>
+                        {auth.userData.name != '' ?
+                        <NavLink to="/logout" className="btn btn-outline-dark m-2"><i className="fa fa-sign-out-alt mr-1"></i>Log out</NavLink>
+                        :<><NavLink to="/login" className="btn btn-outline-dark m-2"><i className="fa fa-sign-in-alt mr-1"></i> Login</NavLink>
+                        <NavLink to="/register" className="btn btn-outline-dark m-2"><i className="fa fa-user-plus mr-1"></i> Register</NavLink></>
+                        }
                         <NavLink to="/cart" className="btn btn-outline-dark m-2"><i className="fa fa-cart-shopping mr-1"></i> Cart ({state.length}) </NavLink>
                     </div>
                 </div>
