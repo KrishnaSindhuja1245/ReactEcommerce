@@ -31,10 +31,11 @@ const OrderSummary = () => {
   //},[]);
   //useEffect(() => {
     //alert("in UseEffect");
-    const userID=auth.userData.email;
+    //const userID=auth.userData.email;
+    
     const getOrders = async () => {
       //const response = await fetch(`https://fakestoreapi.com/products/${id}`);
-      const response = await fetch(`https://yfy16qf15i.execute-api.us-east-1.amazonaws.com/test/getOrders?email=${userID}`);
+      const response = await fetch(`https://yfy16qf15i.execute-api.us-east-1.amazonaws.com/test/getOrders?email=${user}`);
       const data = await response.json();
       //console.log(response);
       setOrders(data);

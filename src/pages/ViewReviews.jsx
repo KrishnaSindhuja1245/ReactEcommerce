@@ -76,10 +76,10 @@ const ViewReviews = () => {
           : reviews.map((rev) =>{
               return(
                 <div className=" text-left" key={rev.index} >
-                <div className="row">
-                <div className="card-body col-md-12 col-sm-12 px-3 py-3">
-                <div><h6 className="card-text"> {rev.UserID} </h6>  Rating: {rev.Rating}</div>
-                <p className="card-text">
+                <div className="row" key={rev.index}>
+                <div className="card-body col-md-12 col-sm-12 px-3 py-3" key={rev.index}>
+                <div key={rev.index}><h6 className="card-text" key={rev.index}> {rev.UserID} </h6>  Rating: {rev.Rating}</div>
+                <p className="card-text" key={rev.index}>
                 {rev.Review}
                 </p>
                 </div></div></div>
