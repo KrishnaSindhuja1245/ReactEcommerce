@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Footer, Navbar } from "../components";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CognitoUserPool } from "amazon-cognito-identity-js";
 import { updateData } from "../redux/reducer/authSlice";
-import { useSelector } from 'react-redux';
+//import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 
 
 
 
-const LogoutPage = () => {
+const Logout = () => {
     const navigate = useNavigate();
-    const auth = useSelector(state => state.authSlice)
+    //const auth = useSelector(state => state.authSlice)
     const dispatch = useDispatch();
     const handleSignOut = () => {
 
@@ -29,9 +29,10 @@ const LogoutPage = () => {
             updateData({
             name: "",
             email: "",
+            signedin: false,
             })
         );
-        //console.log("Logging out");
+        console.log("Logging out");
         navigate("/");
         }
     }; 
@@ -58,4 +59,4 @@ const LogoutPage = () => {
   );
 };
 
-export default LogoutPage;
+export default Logout;

@@ -1,61 +1,35 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link ,useNavigate} from "react-router-dom";
 import { Footer, Navbar } from "../components";
-import { useNavigate } from "react-router-dom";
+import { authenticateUser,getUserAttributes } from '../config/auth'
+import { useLocalStorage } from '../config/useLocalStorage';
 import { useDispatch } from "react-redux";
 import { updateData } from "../redux/reducer/authSlice";
-import { useFormik } from 'formik';
-import * as Yup from "yup";
-import {
-    CognitoUserPool,
-    CognitoUserAttribute,
-    CognitoUser,
-    AuthenticationDetails,
-  } from "amazon-cognito-identity-js";
-
-
-const userPool = new CognitoUserPool({
-    UserPoolId: process.env.REACT_APP_AUTH_USER_POOL_ID,
-    ClientId: process.env.REACT_APP_AUTH_USER_POOL_WEB_CLIENT_ID,
-  });
+import { useFormik } from 'formik'
+import * as Yup from "yup"
 
 const Login = () => {
-  
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const handleSubmit = (values) => {
-    const cognitoUser = new CognitoUser({
-      Username: values.email,
-      Pool: userPool,
-    });
-
-    const authenticationDetails = new AuthenticationDetails({
-      Username: values.email,
-      Password: values.password,
-    });
-
-    cognitoUser.authenticateUser(authenticationDetails, {
-      onSuccess: (result) => {
+  const [name, setName] = useLocalStorage("username","");
   
-        cognitoUser.getUserAttributes(function (err, result) {
-          if (err) {
-            console.log("err", err);
-            return;
-          }
-          dispatch(
-            updateData({
-              name: result[2].Value,
-              email: values.email,
-            })
-          );
-          navigate("/");
-        });
-      },
-      onFailure: (err) => {
-        console.log("login failed", err);
-      },
-    });
+  
+  const handleSubmit = (values) => {
+
+    try {
+      const data = authenticateUser(values.email, values.password);
+      console.log('Sign in success:', data);
+      dispatch(
+        updateData({
+          name : values.email,
+          email: values.email,
+          signedin: true,
+        })
+      );
+      navigate("/");
+    } catch (err) {
+      console.error(err.message);
+    }
   };
   
   const formik = useFormik({

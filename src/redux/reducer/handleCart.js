@@ -23,6 +23,11 @@ const handleCart = (state=cart, action) =>{
                 return state.map((x)=> x.id===product.id?{...x, qty:x.qty-1}:x)
             }
             break;
+        case "EMPTYCART":
+            state={};
+            return state
+            break;
+            
 
         default:
             return state

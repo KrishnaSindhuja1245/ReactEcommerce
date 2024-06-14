@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
-
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -11,14 +10,20 @@ const Products = () => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(false);
+  //const auth = useSelector(state => state.authSlice);
   let componentMounted = true;
 
   const dispatch = useDispatch();
 
   const addProduct = (product) => {
-    dispatch(addCart(product))
+    //Checking if user is logged in to add to cart
+    //if(auth.userData.signedin){
+      dispatch(addCart(product))
+    //}
+    //else{
+      //window.confirm('Please login to add to cart.') //this.onCancel(item)
+    //}
   }
-
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
@@ -29,6 +34,7 @@ const Products = () => {
         setData(await response.clone().json());
         setFilter(await response.json());
         setLoading(false);
+        
       }
 
       return () => {
@@ -88,12 +94,13 @@ const Products = () => {
           return (
             <div id={product.id} key={product.id} className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
               <div className="card text-center h-100" key={product.id}>
+                <a href={"/get_products/" + product.id}>
                 <img
                   className="card-img-top p-3"
                   src={product.image}
                   alt="Card"
                   height={300}
-                />
+                /></a>
                 <div className="card-body">
                   <h5 className="card-title">
                     {product.title.substring(0, 12)}...
@@ -109,7 +116,7 @@ const Products = () => {
                 </ul>
                 <div className="card-body">
                   <Link to={"/get_products/" + product.id} className="btn btn-dark m-1">
-                    Buy Now
+                    View Details
                   </Link>
                   <button className="btn btn-dark m-1" onClick={() => addProduct(product)}>
                     Add to Cart

@@ -1,6 +1,27 @@
-import React from 'react'
 import { Footer, Navbar } from "../components";
+import { checkUserSession } from "../config/auth";
+import { updateData } from "../redux/reducer/authSlice";
+import React, {useState, useEffect} from "react";
+import { useDispatch } from "react-redux";
+
+
 const AboutPage = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    checkUserSession();
+    const user = localStorage.getItem("useremail");
+    localStorage.removeItem("useremail");
+    if(user){
+      dispatch(
+        updateData({
+          name: user,
+          email: user,
+          signedin: true,
+        })
+      );
+    }
+  },[]);
   return (
     <>
       <Navbar />

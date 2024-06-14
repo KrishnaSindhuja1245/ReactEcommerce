@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
 import Marquee from "react-fast-marquee";
-import { useDispatch } from "react-redux";
+import { useDispatch ,useSelector } from "react-redux";
 import { addCart } from "../redux/action";
-
+import { checkUserSession } from "../config/auth";
+import { updateData } from "../redux/reducer/authSlice";
 import { Footer, Navbar } from "../components";
 
 const Product = () => {
@@ -17,9 +18,23 @@ const Product = () => {
   const dispatch = useDispatch();
 
   const addProduct = (product) => {
-    dispatch(addCart(product));
-  };
-
+      dispatch(addCart(product))
+  }
+  useEffect(() => {
+    checkUserSession();
+    const user = localStorage.getItem("useremail");
+    localStorage.removeItem("useremail");
+    if(user){
+      dispatch(
+        updateData({
+          name: user,
+          email: user,
+          signedin: true,
+        })
+      );
+    }
+    window.scrollTo(0, 0);
+  },[]);
   useEffect(() => {
     const getProduct = async () => {
       setLoading(true);
@@ -83,7 +98,7 @@ const Product = () => {
               <h1 className="display-5">{product.title}</h1>
               <p className="lead">
                 {product.rating && product.rating.rate}{" "}
-                <i className="fa fa-star"></i>
+                <i className="fa fa-star"></i>{" "}<Link to={"/viewreview/" + product.id}>View Reviews</Link>
               </p>
               <h3 className="display-6  my-4">${product.price}</h3>
               <p className="lead">{product.description}</p>
@@ -154,7 +169,7 @@ const Product = () => {
                       to={"/get_products/" + item.id}
                       className="btn btn-dark m-1"
                     >
-                      Buy Now
+                       View Details
                     </Link>
                     <button
                       className="btn btn-dark m-1"

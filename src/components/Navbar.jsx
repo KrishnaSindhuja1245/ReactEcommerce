@@ -22,6 +22,9 @@ const Navbar = () => {
                             <NavLink className="nav-link" to="/get_products">Products</NavLink>
                         </li>
                         <li className="nav-item">
+                            <NavLink className="nav-link" to="/ordersummary">Orders</NavLink>
+                        </li>
+                        <li className="nav-item">
                             <NavLink className="nav-link" to="/about">About</NavLink>
                         </li>
                         <li className="nav-item">
@@ -29,8 +32,10 @@ const Navbar = () => {
                         </li>
                     </ul>
                     <div className="buttons text-center">
-                        {auth.userData.name != '' ?
-                        <NavLink to="/logout" className="btn btn-outline-dark m-2"><i className="fa fa-sign-out-alt mr-1"></i>Log out</NavLink>
+                        {auth.userData.signedin != '' ?
+                        <>
+                        Hi, {auth.userData.name}
+                        <NavLink to="/logout" className="btn btn-outline-dark m-2"><i className="fa fa-sign-out-alt mr-1"></i>Log out</NavLink></>
                         :<><NavLink to="/login" className="btn btn-outline-dark m-2"><i className="fa fa-sign-in-alt mr-1"></i> Login</NavLink>
                         <NavLink to="/register" className="btn btn-outline-dark m-2"><i className="fa fa-user-plus mr-1"></i> Register</NavLink></>
                         }

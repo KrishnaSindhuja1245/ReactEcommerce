@@ -1,15 +1,31 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Footer, Navbar } from "../components";
 import { useSelector, useDispatch } from "react-redux";
 import { addCart, delCart } from "../redux/action";
 import { Link } from "react-router-dom";
+import { checkUserSession } from "../config/auth";
+import { updateData } from "../redux/reducer/authSlice";
 
 const Cart = () => {
   const state = useSelector((state) => state.handleCart);
-  const auth = useSelector(state => state.authSlice);
+  //const auth = useSelector(state => state.authSlice);
   const dispatch = useDispatch();
+  useEffect(() => {
+    checkUserSession();
+    const user = localStorage.getItem("useremail");
+    localStorage.removeItem("useremail");
+    if(user){
+      dispatch(
+        updateData({
+          name: user,
+          email: user,
+          signedin: true,
+        })
+      );
+    }
+    }, []);
 
-  const RequestLogin = () => {
+ /* const RequestLogin = () => {
     return(
       <div className="container my-3 py-3">
         <div className="row">
@@ -22,7 +38,7 @@ const Cart = () => {
         </div>
         </div>
     );
-  }
+  }*/
   const EmptyCart = () => {
     return (
       <div className="container">
@@ -179,14 +195,11 @@ const Cart = () => {
   return (
     <>
       <Navbar />
-      {auth.userData.name !=''?
-      <><div className="container my-3 py-3">
+      <div className="container my-3 py-3">
         <h1 className="text-center">Cart</h1>
         <hr />
         {state.length > 0 ? <ShowCart /> : <EmptyCart />}
-        </div></>  
-        : <RequestLogin />
-      }
+        </div> 
       <Footer />
     </>
   );

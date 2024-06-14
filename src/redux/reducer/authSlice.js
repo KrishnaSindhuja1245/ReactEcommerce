@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
-    userData: { name: "", email: "" },
+    userData: { name: '' ,email: '' , signedin: false},
   },
   reducers: {
 

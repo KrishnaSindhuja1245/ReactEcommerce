@@ -1,54 +1,53 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Footer, Navbar } from "../components";
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
-import {
-    CognitoUserPool,
-    CognitoUserAttribute,
-  } from "amazon-cognito-identity-js";
+import { signUpUser } from '../config/auth';
 
-
-const userPool = new CognitoUserPool({
-    UserPoolId: process.env.REACT_APP_AUTH_USER_POOL_ID,
-    ClientId: process.env.REACT_APP_AUTH_USER_POOL_WEB_CLIENT_ID,
-  });
-  
   const Register = () => {
     const navigate = useNavigate();
+    const [checked, setChecked] = useState(false);
   
     const handleSubmit = (values) => {
       const email = values.email.trim();
       const password = values.password.trim();
-      const attributeList = [
-        new CognitoUserAttribute({
-          Name: "email",
-          Value: email,
-        }),
-        new CognitoUserAttribute({
-          Name: "name",
-          Value: values.name,
-        }),
-        /*new CognitoUserAttribute({
-          Name: "custom:telnum",
-          Value: values.telnum,
-        }),*/
-      ];
-      userPool.signUp(email, password, attributeList, null, (err, result) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        console.log("call result: ", result);
-        navigate("/login");
-      });
+      const user_name = values.name.trim();
+      const verifywithemail = values.verifylink;
+        try {
+          const data = signUpUser(user_name, password, email);
+          console.log('Sign up success:', data);
+          alert("User registered successfully!");
+          navigate("/login");
+        
+        /*return(
+            <><div>
+                type="text"
+                className="form-control"
+                id="verifycode"
+                placeholder="enter code here"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.verifycode}
+            </div>
+            <div className="text-center">
+            <button className="my-2 mx-auto btn btn-dark" type="button">
+                Submit
+            </button>
+            </div>
+            </>
+        );*/
+    } catch (err) {
+        console.error(err.message);
+      }
+        
     };
+    
   
     const formik = useFormik({
       initialValues: {
         name: "",
-        //telnum: "",
         email: "",
         password: "",
         confirmpassword:"",
@@ -147,11 +146,13 @@ const userPool = new CognitoUserPool({
                             {formik.touched.confirmpassword && formik.errors.confirmpassword ? (
                                 <div className="text-danger">{formik.errors.confirmpassword}</div>
                             ) : null}
-                            <div className="my-3">
+                            
+                             <div className="my-3">
                                 <p>Already has an account? <Link to="/login" className="text-decoration-underline text-info">Login</Link> </p>
                             </div>
+                            
                             <div className="text-center">
-                                <button className="my-2 mx-auto btn btn-dark" type="submit" onClick={() => handleSubmit(formik.values)} >
+                                <button className="my-2 mx-auto btn btn-dark" type="submit">
                                     Register
                                 </button>
                             </div>
@@ -163,5 +164,16 @@ const userPool = new CognitoUserPool({
         </>
     )
 }
-
+/* <div className="my-3">
+                                <label> 
+                                    <input
+                                        type="checkbox"
+                                        //className="form-control"
+                                        id="verifylink"
+                                        //placeholder="Password"
+                                        onChange={handleChange}
+                                        value={formik.values.verifylink}
+                                    /> Send Verification Link
+                                </label>
+                            </div> */
 export default Register

@@ -1,10 +1,51 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Footer, Navbar } from "../components";
+import { checkUserSession } from "../config/auth";
+import { updateData } from "../redux/reducer/authSlice";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
 const ContactPage = () => {
+  const dispatch= useDispatch();
+
+  useEffect(() => {
+    checkUserSession();
+    const user = localStorage.getItem("useremail");
+    localStorage.removeItem("useremail");
+    if(user){
+      dispatch(
+        updateData({
+          name: user,
+          email: user,
+          signedin: true,
+        })
+      );
+    }
+  },[]);
+
   return (
     <>
       <Navbar />
-      <div className="container my-3 py-3">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12 py-5 bg-light text-center">
+            <h4 className="p-3 display-5">Contact Us</h4>
+            <hr />
+            <h6>Send an email to admin@reactecommerce.shop for any queries. We are happy to assit you.</h6>
+            <h6>Please note it takes 3-4 working days to get back to you.</h6>
+            <Link to="/" className="btn btn-outline-dark mx-4">
+              <i className="fa fa-arrow-left"></i> Continue Shopping
+            </Link>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
+};
+
+export default ContactPage;
+/**      <div className="container my-3 py-3">
         <h1 className="text-center">Contact Us</h1>
         <hr />
         <div class="row my-4 h-100">
@@ -49,10 +90,4 @@ const ContactPage = () => {
             </form>
           </div>
         </div>
-      </div>
-      <Footer />
-    </>
-  );
-};
-
-export default ContactPage;
+      </div> */

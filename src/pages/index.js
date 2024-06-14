@@ -9,3 +9,6 @@ export { default as Register } from './Register';
 export { default as Checkout } from './Checkout';
 export { default as PageNotFound } from './PageNotFound';
 export { default as Logout } from './Logout';
+export { default as OrderSummary } from './OrderSummary';
+export { default as AddReview } from './AddReview';
+export { default as ViewReviews } from './ViewReviews';
