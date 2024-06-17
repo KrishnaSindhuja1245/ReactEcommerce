@@ -7,7 +7,7 @@ import { USstateOptions } from '../config/us_states';
 import { checkUserSession } from "../config/auth";
 import { updateData } from "../redux/reducer/authSlice";
 import { emptyCart } from "../redux/action";
-//import {CardElement, useElements, useStripe} from '@stripe/react-stripe-js';
+import {CardElement, useElements, useStripe} from '@stripe/react-stripe-js';
 
 
 
@@ -19,9 +19,8 @@ const Checkout = () => {
   
   const { register, handleSubmit, getValues,formState: { errors } ,reset} = useForm();
   const [OrderPlaced, setOrderPlaced] = useState(false);
-  //const [formData, setFormData] = useState("");
-  //const stripe = useStripe();
-  //const elements = useElements();
+  const stripe = useStripe();
+  const elements = useElements();
  
   useEffect(() => {
     checkUserSession();

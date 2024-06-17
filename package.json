@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@aws-sdk/client-s3": "^3.583.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.20",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@reduxjs/toolkit": "^1.8.5",
     "@stripe/react-stripe-js": "^2.7.1",

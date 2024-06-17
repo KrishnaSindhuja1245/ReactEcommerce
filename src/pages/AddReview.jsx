@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React,{useEffect, useState} from "react";
 import { Footer, Navbar } from "../components";
 import { checkUserSession } from "../config/auth";
 import { updateData } from "../redux/reducer/authSlice";
@@ -83,7 +83,7 @@ const AddReview = () => {
           <div className="col-md-4 col-lg-4 col-sm-8 mx-auto">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form my-3">
-                <label for="rating">Rating</label>
+                <label htmlFor="rating">Rating</label>
                 <select
                   className="form-control"
                   id="rating"
@@ -98,7 +98,7 @@ const AddReview = () => {
                 </select>
               </div>
               <div className="form  my-3">
-                <label for="review">Review</label>
+                <label htmlFor="review">Review</label>
                 <textarea
                   rows={5}
                   className="form-control"

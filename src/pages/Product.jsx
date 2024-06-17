@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
 import Marquee from "react-fast-marquee";
-import { useDispatch ,useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
 import { checkUserSession } from "../config/auth";
 import { updateData } from "../redux/reducer/authSlice";
 import { Footer, Navbar } from "../components";
+import Rating from '@mui/material/Rating';
 
 const Product = () => {
   const { id } = useParams();
@@ -14,6 +15,7 @@ const Product = () => {
   const [similarProducts, setSimilarProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
+  
 
   const dispatch = useDispatch();
 
@@ -79,7 +81,9 @@ const Product = () => {
     );
   };
 
+
   const ShowProduct = () => {
+
     return (
       <>
         <div className="container my-5 py-2">
@@ -97,8 +101,12 @@ const Product = () => {
               <h4 className="text-uppercase text-muted">{product.category}</h4>
               <h1 className="display-5">{product.title}</h1>
               <p className="lead">
-                {product.rating && product.rating.rate}{" "}
-                <i className="fa fa-star"></i>{" "}<Link to={"/viewreview/" + product.id}>View Reviews</Link>
+              <Rating
+                name="simple-controlled"
+                value={product.rating && product.rating.rate}
+                precision={0.1}
+                readOnly
+              />{product.rating && product.rating.rate}{"  ("}{product.rating && product.rating.count}{") "}<Link to={"/viewreview/" + product.id}>View Reviews</Link>
               </p>
               <h3 className="display-6  my-4">${product.price}</h3>
               <p className="lead">{product.description}</p>
