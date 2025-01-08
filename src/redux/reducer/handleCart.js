@@ -24,7 +24,7 @@ const handleCart = (state=cart, action) =>{
             }
             break;
         case "EMPTYCART":
-            state={};
+            state=[];
             return state
             break;
             

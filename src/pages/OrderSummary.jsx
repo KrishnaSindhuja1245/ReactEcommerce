@@ -13,7 +13,7 @@ const OrderSummary = () => {
   const state = useSelector((state) => state.handleCart);
   const auth = useSelector(state => state.authSlice);
   const dispatch = useDispatch();
-  const [orders, setOrders] = useState("");
+  const [orders, setOrders] = useState([]);
   const [sortByDate, setSortByDate] = useState(false);
   //useState([{OrderID:"ORD001",Products:[{price:"23.99",id:"2",qty:"2"},{price:"23.99",id:"4",qty:"2"}],OrderDate:"06/11/24",UserID:"test@example.com"},{OrderID:"ORD002",Products:[{price:"23.99",id:"2",qty:"2"},{price:"23.99",id:"4",qty:"2"}],OrderDate:"06/11/24",UserID:"test@example.com"}]);
 
@@ -45,18 +45,19 @@ const OrderSummary = () => {
       
     };
     getOrders();
-    const toggleSortByDate = () => {
-      setSortByDate(!sortByDate);
-    };
-
-    const sortOrdersByDate = (a, b) => {
-        if (sortByDate) {
-            return new Date(b.orderDate.S) - new Date(a.orderDate.S);
-        } else {
-            return new Date(a.orderDate.S) - new Date(b.orderDate.S);
-        }
-    };
+    
   },[]);
+  const toggleSortByDate = () => {
+    setSortByDate(!sortByDate);
+  };
+
+  const sortOrdersByDate = (a, b) => {
+      if (sortByDate) {
+          return new Date(b.OrderDate) - new Date(a.OrderDate);
+      } else {
+          return new Date(a.OrderDate) - new Date(b.OrderDate);
+      }
+  };
 
   const NoOrders = () => {
     return (
@@ -106,7 +107,11 @@ const OrderSummary = () => {
         <div className="container py-3">
           <h1 className="text-center">Your Orders</h1>
           <hr />
-          
+          <div className="text-right">
+            <button className="my-2 mx-auto btn btn-dark" type="submit" onClick={toggleSortByDate}>
+              Sort by Date
+            </button>
+          </div>
           {orders.map((ord) => {
               return(
                 <div id={ord.OrderID} key={ord.OrderID} className="col-md-12 col-sm-6 col-xs-8 col-12 mb-2 ordscroll"
